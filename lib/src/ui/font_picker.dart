@@ -70,7 +70,7 @@ class FontPicker extends StatefulWidget {
   ///
   /// You can then use its [toTextStyle] method to style any text with the selected font.
   const FontPicker({
-    super.key,
+    final super.key,
     this.googleFonts = googleFontsList,
     this.showFontInfo = true,
     this.showInDialog = false,
@@ -85,7 +85,7 @@ class FontPicker extends StatefulWidget {
 
 class _FontPickerState extends State<FontPicker> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (widget.showInDialog) {
       return FontPickerUI(
         onFontChanged: widget.onFontChanged,
@@ -95,19 +95,19 @@ class _FontPickerState extends State<FontPicker> {
         recentsCount: widget.recentsCount,
         initialFontFamily: widget.initialFontFamily ?? 'Roboto',
       );
-    } else {
-      return Scaffold(
-          appBar: AppBar(
-            title: const Text("Pick a font:"),
-          ),
-          body: FontPickerUI(
-            onFontChanged: widget.onFontChanged,
-            googleFonts: widget.googleFonts,
-            showFontInfo: widget.showFontInfo,
-            showInDialog: widget.showInDialog,
-            recentsCount: widget.recentsCount,
-            initialFontFamily: widget.initialFontFamily ?? 'Roboto',
-          ));
     }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Pick a font:"),
+      ),
+      body: FontPickerUI(
+        onFontChanged: widget.onFontChanged,
+        googleFonts: widget.googleFonts,
+        showFontInfo: widget.showFontInfo,
+        showInDialog: widget.showInDialog,
+        recentsCount: widget.recentsCount,
+        initialFontFamily: widget.initialFontFamily ?? 'Roboto',
+      ),
+    );
   }
 }

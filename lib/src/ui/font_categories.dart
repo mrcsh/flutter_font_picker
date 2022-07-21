@@ -4,7 +4,7 @@ import '../constants/constants.dart';
 
 class FontCategories extends StatefulWidget {
   final ValueChanged<List<String>> onFontCategoriesUpdated;
-  const FontCategories({super.key, required this.onFontCategoriesUpdated});
+  const FontCategories({final super.key, required this.onFontCategoriesUpdated});
 
   @override
   _FontCategoriesState createState() => _FontCategoriesState();
@@ -14,10 +14,10 @@ class _FontCategoriesState extends State<FontCategories> {
   final List<String> _selectedFontCategories = List.from(googleFontCategories);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Wrap(
-        children: googleFontCategories.map((fontCategory) {
-      bool isSelectedCategory = _selectedFontCategories.contains(fontCategory);
+        children: googleFontCategories.map((final fontCategory) {
+      final isSelectedCategory = _selectedFontCategories.contains(fontCategory);
       return SizedBox(
         height: 30.0,
         child: Padding(
@@ -32,9 +32,8 @@ class _FontCategoriesState extends State<FontCategories> {
                 shape: const StadiumBorder()),
             child: Text(fontCategory,
                 style: TextStyle(
-                  color: isSelectedCategory
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : null,
+                  color:
+                      isSelectedCategory ? Theme.of(context).colorScheme.onPrimary : null,
                 )),
             onPressed: () {
               _selectedFontCategories.contains(fontCategory)

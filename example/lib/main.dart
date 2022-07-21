@@ -6,10 +6,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({final super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MaterialApp(
       title: 'Font Picker Demo',
       theme: ThemeData(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({final super.key, required this.title});
 
   final String title;
 
@@ -87,13 +87,13 @@ class _MyHomePageState extends State<MyHomePage> {
     "Zilla Slab"
   ];
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-            child: Padding(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -104,13 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => FontPicker(
+                          builder: (final context) => FontPicker(
                               recentsCount: 10,
-                              onFontChanged: (font) {
-                                setState(() {
-                                  _selectedFont = font.fontFamily;
-                                  _selectedFontTextStyle = font.toTextStyle();
-                                });
+                              onFontChanged: (final font) {
+                                setState(
+                                  () {
+                                    _selectedFont = font.fontFamily;
+                                    _selectedFontTextStyle = font.toTextStyle();
+                                  },
+                                );
                                 debugPrint(
                                     "${font.fontFamily} with font weight ${font.fontWeight} and font style ${font.fontStyle}. FontSpec: ${font.toFontSpec()}");
                               },
@@ -118,43 +120,48 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }),
               ElevatedButton(
-                  child: const Text('Pick a font (with a dialog)'),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                            content: SingleChildScrollView(
+                child: const Text('Pick a font (with a dialog)'),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (final context) {
+                      return AlertDialog(
+                        content: SingleChildScrollView(
                           child: SizedBox(
                             width: double.maxFinite,
                             child: FontPicker(
                                 showInDialog: true,
                                 initialFontFamily: 'Anton',
-                                onFontChanged: (font) {
-                                  setState(() {
-                                    _selectedFont = font.fontFamily;
-                                    _selectedFontTextStyle = font.toTextStyle();
-                                  });
+                                onFontChanged: (final font) {
+                                  setState(
+                                    () {
+                                      _selectedFont = font.fontFamily;
+                                      _selectedFontTextStyle = font.toTextStyle();
+                                    },
+                                  );
                                   debugPrint(
                                       "${font.fontFamily} with font weight ${font.fontWeight} and font style ${font.fontStyle}. FontSpec: ${font.toFontSpec()}");
                                 },
                                 googleFonts: _myGoogleFonts),
                           ),
-                        ));
-                      },
-                    );
-                  }),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Pick a font: ',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(fontWeight: FontWeight.w700)),
-                  )),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Pick a font: ',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontWeight: FontWeight.w700)),
+                    ),
+                  ),
                   Expanded(
                     child: TextField(
                       readOnly: true,
@@ -167,13 +174,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FontPicker(
-                                  onFontChanged: (font) {
-                                    setState(() {
-                                      _selectedFont = font.fontFamily;
-                                      _selectedFontTextStyle =
-                                          font.toTextStyle();
-                                    });
+                              builder: (final context) => FontPicker(
+                                  onFontChanged: (final font) {
+                                    setState(
+                                      () {
+                                        _selectedFont = font.fontFamily;
+                                        _selectedFontTextStyle = font.toTextStyle();
+                                      },
+                                    );
                                     debugPrint(
                                         "${font.fontFamily} with font weight ${font.fontWeight} and font style ${font.fontStyle}. FontSpec: ${font.toFontSpec()}");
                                   },
@@ -193,22 +201,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Center(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                            Text('Font: $_selectedFont',
-                                style: _selectedFontTextStyle),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Font: $_selectedFont', style: _selectedFontTextStyle),
                             Text('The quick brown fox jumped',
                                 style: _selectedFontTextStyle),
-                            Text('over the lazy dog',
-                                style: _selectedFontTextStyle),
-                          ])),
+                            Text('over the lazy dog', style: _selectedFontTextStyle),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               )
             ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

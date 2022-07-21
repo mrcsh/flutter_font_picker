@@ -5,14 +5,15 @@ class FontPreview extends StatelessWidget {
   final String fontFamily;
   final FontWeight fontWeight;
   final FontStyle fontStyle;
-  const FontPreview(
-      {super.key,
-      required this.fontFamily,
-      required this.fontWeight,
-      required this.fontStyle});
+  const FontPreview({
+    final super.key,
+    required this.fontFamily,
+    required this.fontWeight,
+    required this.fontStyle,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TextField(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FontSearch extends StatefulWidget {
   final ValueChanged<String> onSearchTextChanged;
-  const FontSearch({super.key, required this.onSearchTextChanged});
+  const FontSearch({final super.key, required this.onSearchTextChanged});
 
   @override
   _FontSearchState createState() => _FontSearchState();
@@ -12,13 +12,21 @@ class _FontSearchState extends State<FontSearch> {
   bool _isSearchFocused = false;
   TextEditingController searchController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(final BuildContext context) {
     return FocusScope(
       child: Focus(
-        onFocusChange: (focus) {
-          setState(() {
-            _isSearchFocused = focus;
-          });
+        onFocusChange: (final focus) {
+          setState(
+            () {
+              _isSearchFocused = focus;
+            },
+          );
         },
         child: TextField(
           controller: searchController,
