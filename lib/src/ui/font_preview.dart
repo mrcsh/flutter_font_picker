@@ -23,8 +23,9 @@ class FontPreview extends StatelessWidget {
           fontWeight: fontWeight,
           fontStyle: fontStyle,
         ),
+        maxLines: 2,
         decoration: InputDecoration(
-          hintText: 'The quick brown fox jumped over the lazy dog',
+          hintText: 'The quick brown fox jumped over the lazy dog. 0 1 2 3 4 5 6 7 8 9',
           hintStyle: TextStyle(
             fontSize: 14.0,
             fontStyle: fontStyle,

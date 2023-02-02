@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _selectedFont = "Roboto";
   TextStyle? _selectedFontTextStyle;
-  final List<String> _myGoogleFonts = [
+  static const List<String> _myGoogleFonts = [
     "Abril Fatface",
     "Aclonica",
     "Alegreya Sans",
