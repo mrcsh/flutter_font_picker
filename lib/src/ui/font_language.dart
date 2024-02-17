@@ -6,7 +6,7 @@ class FontLanguage extends StatefulWidget {
   final ValueChanged<String?> onFontLanguageSelected;
   final String selectedFontLanguage;
   const FontLanguage({
-    final super.key,
+    super.key,
     required this.selectedFontLanguage,
     required this.onFontLanguageSelected,
   });

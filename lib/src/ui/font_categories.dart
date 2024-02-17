@@ -4,7 +4,7 @@ import '../constants/constants.dart';
 
 class FontCategories extends StatefulWidget {
   final ValueChanged<List<String>> onFontCategoriesUpdated;
-  const FontCategories({final super.key, required this.onFontCategoriesUpdated});
+  const FontCategories({super.key, required this.onFontCategoriesUpdated});
 
   @override
   _FontCategoriesState createState() => _FontCategoriesState();

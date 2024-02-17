@@ -20,7 +20,7 @@ class FontPickerUI extends StatefulWidget {
   final int recentsCount;
 
   const FontPickerUI({
-    final super.key,
+    super.key,
     this.googleFonts = googleFontsList,
     this.showFontInfo = true,
     this.showInDialog = false,
@@ -287,7 +287,7 @@ class _FontTile extends StatelessWidget {
           borderRadius: const BorderRadius.all(
             Radius.circular(4),
           ),
-          color: selected ? theme.selectedRowColor : null,
+          color: selected ? theme.primaryColorLight : null,
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -347,28 +347,27 @@ class _FontTile extends StatelessWidget {
                         }
                         return SizedBox(
                           height: 30.0,
-                          width: 60.0,
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                   backgroundColor:
                                       isSelectedVariant ? theme.primaryColor : null,
-                                  textStyle: const TextStyle(
-                                    fontSize: 10.0,
-                                  ),
+                                  textStyle: const TextStyle(fontSize: 10.0),
                                   shape: const StadiumBorder()),
                               child: Text(
                                 variant,
+                                softWrap: false,
                                 style: TextStyle(
-                                    fontStyle: variant == "italic"
-                                        ? FontStyle.italic
-                                        : FontStyle.normal,
-                                    color: isSelectedVariant
-                                        ? theme.colorScheme.onPrimary
-                                        : theme.colorScheme.onPrimary == Colors.white
-                                            ? null
-                                            : theme.colorScheme.onPrimary),
+                                  fontStyle: variant == "italic"
+                                      ? FontStyle.italic
+                                      : FontStyle.normal,
+                                  color: isSelectedVariant
+                                      ? theme.colorScheme.onPrimary
+                                      : theme.colorScheme.onPrimary == Colors.white
+                                          ? null
+                                          : theme.colorScheme.onPrimary,
+                                ),
                               ),
                               onPressed: () {
                                 if (variant == "italic") {

@@ -32,10 +32,6 @@ analyzer:
     # allow self-reference to deprecated members (we do this because otherwise we have
     # to annotate every member in every test, assert, etc, when we deprecate something)
     deprecated_member_use_from_same_package: ignore
-    # Ignore analyzer hints for updating pubspecs when using Future or
-    # Stream and not importing dart:async
-    # Please see https://github.com/flutter/flutter/pull/24528 for details.
-    sdk_version_async_exported_from_core: ignore
   exclude:
     - "bin/cache/**"
 
@@ -49,7 +45,7 @@ linter:
     - always_put_control_body_on_new_line
     # - always_put_required_named_parameters_first # we prefer having parameters in the same order as fields https://github.com/flutter/flutter/issues/10219
     - always_require_non_null_named_parameters
-#    - always_specify_types
+    #    - always_specify_types
     - annotate_overrides
     # - avoid_annotating_with_dynamic # conflicts with always_specify_types
     # - avoid_as # required for implicit-casts: true
@@ -61,7 +57,7 @@ linter:
     - avoid_empty_else
     - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_field_initializers_in_const_classes
-#    - avoid_function_literals_in_foreach_calls
+    #    - avoid_function_literals_in_foreach_calls
     # - avoid_implementing_value_types # not yet tested
     - avoid_init_to_null
     # - avoid_js_rounded_ints # only useful when targeting JS runtime
@@ -103,9 +99,9 @@ linter:
     - empty_constructor_bodies
     - empty_statements
     # - file_names # not yet tested
-#    - flutter_style_todos
+    #    - flutter_style_todos
     - hash_and_equals
-#    - implementation_imports
+    #    - implementation_imports
     # - invariant_booleans # too many false positives: https://github.com/dart-lang/linter/issues/811
     - iterable_contains_unrelated_type
     # - join_return_with_assignment # not yet tested
@@ -147,7 +143,7 @@ linter:
     - prefer_final_in_for_each
     - prefer_final_locals
     - prefer_final_parameters
-#    - prefer_for_elements_to_map_fromIterable
+    #    - prefer_for_elements_to_map_fromIterable
     - prefer_foreach
     # - prefer_function_declarations_over_variables # not yet tested
     - prefer_generic_function_type_aliases
@@ -164,7 +160,7 @@ linter:
     # - prefer_mixin # https://github.com/dart-lang/language/issues/32
     # - prefer_null_aware_operators # disable until NNBD, see https://github.com/flutter/flutter/pull/32711#issuecomment-492930932
     - prefer_relative_imports # not yet tested
-#    - prefer_single_quotes
+    #    - prefer_single_quotes
     - prefer_spread_collections
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
@@ -173,8 +169,8 @@ linter:
     - recursive_getters
     - slash_for_doc_comments
     # - sort_child_properties_last # not yet tested
-#    - sort_constructors_first
-#    - sort_pub_dependencies
+    #    - sort_constructors_first
+    #    - sort_pub_dependencies
     - sort_unnamed_constructors_first
     - test_types_in_equals
     - throw_in_finally

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FontSearch extends StatefulWidget {
   final ValueChanged<String> onSearchTextChanged;
-  const FontSearch({final super.key, required this.onSearchTextChanged});
+  const FontSearch({super.key, required this.onSearchTextChanged});
 
   @override
   _FontSearchState createState() => _FontSearchState();

@@ -70,7 +70,7 @@ class FontPicker extends StatefulWidget {
   ///
   /// You can then use its [toTextStyle] method to style any text with the selected font.
   const FontPicker({
-    final super.key,
+    super.key,
     this.googleFonts = googleFontsList,
     this.showFontInfo = true,
     this.showInDialog = false,
