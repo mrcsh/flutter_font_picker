@@ -287,7 +287,7 @@ class _FontTile extends StatelessWidget {
           borderRadius: const BorderRadius.all(
             Radius.circular(4),
           ),
-          color: selected ? theme.primaryColorLight : null,
+          color: selected ? theme.colorScheme.primaryContainer : null,
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
