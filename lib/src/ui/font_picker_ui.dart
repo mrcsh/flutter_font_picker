@@ -37,7 +37,7 @@ class _FontPickerUIState extends State<FontPickerUI> {
   List<PickerFont> _shownFonts = const [];
   List<PickerFont> _allFonts = const [];
   List<PickerFont> _recentFonts = const [];
-  String _selectedFontFamily = "Roboto";
+  String _selectedFontFamily = 'Roboto';
   FontWeight _selectedFontWeight = FontWeight.w400;
   FontStyle _selectedFontStyle = FontStyle.normal;
   String _selectedFontLanguage = 'all';
@@ -56,6 +56,15 @@ class _FontPickerUIState extends State<FontPickerUI> {
     _theme = Theme.of(context);
     _size = MediaQuery.of(context).size;
     super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant final FontPickerUI oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.googleFonts != widget.googleFonts ||
+        widget.initialFontFamily != oldWidget.initialFontFamily) {
+      _prepareShownFonts();
+    }
   }
 
   Future _prepareShownFonts() async {
@@ -90,9 +99,7 @@ class _FontPickerUIState extends State<FontPickerUI> {
     );
   }
 
-  void changeFont(final PickerFont selectedFont) {
-    widget.onFontChanged(selectedFont);
-  }
+  void changeFont(final PickerFont selectedFont) => widget.onFontChanged(selectedFont);
 
   @override
   Widget build(final BuildContext context) {
@@ -102,35 +109,32 @@ class _FontPickerUIState extends State<FontPickerUI> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-            child: widget.showInDialog
-                ? ListView(
-                    shrinkWrap: true,
-                    children: [
-                      FontSearch(
-                        onSearchTextChanged: onSearchTextChanged,
-                      ),
-                      FontLanguage(
+            child: switch (widget.showInDialog) {
+              true => ListView(
+                  shrinkWrap: true,
+                  children: [
+                    FontSearch(onSearchTextChanged: onSearchTextChanged),
+                    FontLanguage(
+                      onFontLanguageSelected: onFontLanguageSelected,
+                      selectedFontLanguage: _selectedFontLanguage,
+                    ),
+                    const SizedBox(height: 12.0)
+                  ],
+                ),
+              false => Row(
+                  children: [
+                    Expanded(
+                      child: FontSearch(onSearchTextChanged: onSearchTextChanged),
+                    ),
+                    Expanded(
+                      child: FontLanguage(
                         onFontLanguageSelected: onFontLanguageSelected,
                         selectedFontLanguage: _selectedFontLanguage,
                       ),
-                      const SizedBox(height: 12.0)
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Expanded(
-                        child: FontSearch(
-                          onSearchTextChanged: onSearchTextChanged,
-                        ),
-                      ),
-                      Expanded(
-                        child: FontLanguage(
-                          onFontLanguageSelected: onFontLanguageSelected,
-                          selectedFontLanguage: _selectedFontLanguage,
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
+                ),
+            },
           ),
           FontCategories(onFontCategoriesUpdated: onFontCategoriesUpdated),
           Padding(
@@ -145,13 +149,14 @@ class _FontPickerUIState extends State<FontPickerUI> {
             child: ListView.builder(
               itemCount: _shownFonts.length,
               itemBuilder: (final context, final index) {
-                final PickerFont f = _shownFonts[index];
-                final bool isBeingSelected = _selectedFontFamily == f.fontFamily;
-                final String stylesString = widget.showFontInfo
-                    ? f.variants.length > 1
-                        ? "  ${f.category}, ${f.variants.length} styles"
-                        : "  ${f.category}"
-                    : "";
+                final f = _shownFonts[index];
+                final isBeingSelected = _selectedFontFamily == f.fontFamily;
+                final stylesString = switch (widget.showFontInfo) {
+                  true when f.variants.length > 1 =>
+                    '  ${f.category}, ${f.variants.length} styles',
+                  true => '  ${f.category}',
+                  false => '',
+                };
                 return _FontTile(
                   isRecent: _recentFonts.contains(f),
                   selected: isBeingSelected,
@@ -174,19 +179,17 @@ class _FontPickerUIState extends State<FontPickerUI> {
                       setState(() => _selectedFontStyle = style),
                   onWeightChange: (final weight) =>
                       setState(() => _selectedFontWeight = weight),
-                  onTap: () {
-                    setState(
-                      () {
-                        if (!isBeingSelected) {
-                          _selectedFontFamily = f.fontFamily;
-                          _selectedFontWeight = FontWeight.w400;
-                          _selectedFontStyle = FontStyle.normal;
-                        } else {
-                          _selectedFontFamily = 'Roboto';
-                        }
-                      },
-                    );
-                  },
+                  onTap: () => setState(
+                    () {
+                      if (!isBeingSelected) {
+                        _selectedFontFamily = f.fontFamily;
+                        _selectedFontWeight = FontWeight.w400;
+                        _selectedFontStyle = FontStyle.normal;
+                      } else {
+                        _selectedFontFamily = 'Roboto';
+                      }
+                    },
+                  ),
                 );
               },
             ),
@@ -300,20 +303,20 @@ class _FontTile extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: RichText(
                       text: TextSpan(
-                        text: "${font.fontFamily}\n",
+                        text: '${font.fontFamily}\n',
                         style: TextStyle(
-                                fontFamily:
-                                    GoogleFonts.getFont(font.fontFamily).fontFamily)
-                            .copyWith(color: DefaultTextStyle.of(context).style.color),
+                          fontFamily: GoogleFonts.getFont(font.fontFamily).fontFamily,
+                        ).copyWith(color: DefaultTextStyle.of(context).style.color),
                         children: [
                           TextSpan(
-                              text: stylesString,
-                              style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 11.0,
-                                  color: Colors.grey,
-                                  fontFamily:
-                                      DefaultTextStyle.of(context).style.fontFamily))
+                            text: stylesString,
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 11.0,
+                                color: Colors.grey,
+                                fontFamily:
+                                    DefaultTextStyle.of(context).style.fontFamily),
+                          )
                         ],
                       ),
                     ),
@@ -335,61 +338,78 @@ class _FontTile extends StatelessWidget {
               if (selected)
                 Wrap(
                   children: [
-                    ...font.variants.map(
-                      (final variant) {
-                        bool isSelectedVariant;
-                        if (variant == "italic" &&
-                            selectedFontStyle == FontStyle.italic) {
-                          isSelectedVariant = true;
-                        } else {
-                          isSelectedVariant =
-                              selectedFontWeight.toString().contains(variant);
-                        }
-                        return SizedBox(
-                          height: 30.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor:
-                                      isSelectedVariant ? theme.primaryColor : null,
-                                  textStyle: const TextStyle(fontSize: 10.0),
-                                  shape: const StadiumBorder()),
-                              child: Text(
-                                variant,
-                                softWrap: false,
-                                style: TextStyle(
-                                  fontStyle: variant == "italic"
-                                      ? FontStyle.italic
-                                      : FontStyle.normal,
-                                  color: isSelectedVariant
-                                      ? theme.colorScheme.onPrimary
-                                      : theme.colorScheme.onPrimary == Colors.white
-                                          ? null
-                                          : theme.colorScheme.onPrimary,
-                                ),
-                              ),
-                              onPressed: () {
-                                if (variant == "italic") {
-                                  onStyleChange(selectedFontStyle == FontStyle.italic
-                                      ? FontStyle.normal
-                                      : FontStyle.italic);
-                                } else {
-                                  final w = fontWeightValues[variant];
-                                  if (w != null) {
-                                    onWeightChange(w);
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    for (final variant in font.variants)
+                      _VariantButton(
+                        variant: variant,
+                        selectedFontStyle: selectedFontStyle,
+                        selectedFontWeight: selectedFontWeight,
+                        onStyleChange: onStyleChange,
+                        onWeightChange: onWeightChange,
+                      ),
                   ],
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _VariantButton extends StatelessWidget {
+  const _VariantButton({
+    required this.variant,
+    required this.onStyleChange,
+    required this.selectedFontStyle,
+    required this.selectedFontWeight,
+    required this.onWeightChange,
+  });
+
+  final String variant;
+  final void Function(FontStyle p1) onStyleChange;
+  final FontStyle selectedFontStyle;
+  final FontWeight selectedFontWeight;
+  final void Function(FontWeight p1) onWeightChange;
+
+  @override
+  Widget build(final BuildContext context) {
+    final theme = Theme.of(context);
+    final isSelectedVariant =
+        variant == 'italic' && selectedFontStyle == FontStyle.italic ||
+            selectedFontWeight.toString().contains(variant);
+    return SizedBox(
+      height: 30.0,
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+              backgroundColor: isSelectedVariant ? theme.primaryColor : null,
+              textStyle: const TextStyle(fontSize: 10.0),
+              shape: const StadiumBorder()),
+          child: Text(
+            variant,
+            softWrap: false,
+            style: TextStyle(
+              fontStyle: variant == 'italic' ? FontStyle.italic : FontStyle.normal,
+              color: switch (isSelectedVariant) {
+                true => theme.colorScheme.onPrimary,
+                false when theme.colorScheme.onPrimary == Colors.white => null,
+                _ => theme.colorScheme.onPrimary,
+              },
+            ),
+          ),
+          onPressed: () {
+            if (variant == 'italic') {
+              onStyleChange(selectedFontStyle == FontStyle.italic
+                  ? FontStyle.normal
+                  : FontStyle.italic);
+            } else {
+              final w = fontWeightValues[variant];
+              if (w != null) {
+                onWeightChange(w);
+              }
+            }
+          },
         ),
       ),
     );
